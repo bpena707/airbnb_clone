@@ -12,6 +12,7 @@ import {
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import { useState } from 'react';
+import Modal from './Modal';
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal()
@@ -49,7 +50,13 @@ const RegisterModal = () => {
     })
 
   return (
-    <div>RegisterModal</div>
+    <Modal 
+        disabled={isLoading} //user cannot submit anything while the modal is loading 
+        isOpen={registerModal.isOpen} //comes from the hook useRegisterModal which is defined with options useRegisterModal file
+        actionLabel='Continue'
+        onClose={registerModal.onClose}
+        onSubmit={handleSubmit(onSubmit)}
+    />
   )
 }
 
