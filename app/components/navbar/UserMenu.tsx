@@ -4,8 +4,10 @@ import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../Avatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
 
 function UserMenu() {
+    const registerModal = useRegisterModal()
     // the menu item is toggeled as false so it wont show untill clicked on
     const [isOpen, setIsOpen] = useState(false)
     
@@ -45,7 +47,7 @@ function UserMenu() {
                             label="Login"
                         />
                         <MenuItem 
-                            onClick={() => {}}
+                            onClick={registerModal.onOpen} //this will make the registration modal pop up
                             label="Sign Up"
                         />
                     </>

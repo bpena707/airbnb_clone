@@ -49,13 +49,20 @@ const RegisterModal = () => {
         }) //turn off loading when done by changing the state to false 
     })
 
+    const bodyContent = (
+        <div className='flex flex-col gap-4'>
+            Modal Body
+        </div>
+    )
   return (
     <Modal 
         disabled={isLoading} //user cannot submit anything while the modal is loading 
         isOpen={registerModal.isOpen} //comes from the hook useRegisterModal which is defined with options useRegisterModal file
+        title='Register'
         actionLabel='Continue'
         onClose={registerModal.onClose}
         onSubmit={handleSubmit(onSubmit)}
+        body={bodyContent}
     />
   )
 }
