@@ -1,4 +1,7 @@
+// this is for the zustand api 
+
 import { create } from "zustand";
+
 
 interface RegisterModalStore {
     isOpen: boolean
@@ -6,6 +9,7 @@ interface RegisterModalStore {
     onClose: () => void
 }
 
+// extract the set property as an object 
 const useRegisterModal = create<RegisterModalStore>((set) => ({
     isOpen: false,
     onOpen: () => set({isOpen: true}),
