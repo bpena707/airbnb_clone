@@ -31,8 +31,21 @@ const RegisterModal = () => {
         }
     })
 
+    // pass data to axios as a field value which is the name email and password 
     const onSubmit: SubmitHandler<FieldValues> = (data => {
-        
+        setIsLoading(true)
+
+        // axios post call 
+        axios.post('/api/register', data)
+        .then(() => {
+            registerModal.onClose() //for the the data is successfully registered
+        })
+        .catch ((error) => {
+            console.log(error)
+        })
+        .finally(() => {
+            setIsLoading(false)
+        }) //turn off loading when done by changing the state to false 
     })
 
   return (
