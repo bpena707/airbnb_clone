@@ -1,5 +1,13 @@
 'use client' 
 
+/*
+The RegisterModal is a modal that is responsible for handling the Registration of a new user.
+The main styling is handled by the modal component which is imported and rendered in the return.
+The useRegisterModal custom hook that was created in a separate file is also used here to handle data values that are passed
+as field values in to the submission handler which takes the data and creates a post via axios along with all of the edge cases
+the body content is added to the body of the modal as a prop
+*/
+
 // axios is a data fetching library 
 import axios from 'axios'
 import { AiFillGithub } from 'react-icons/ai'
@@ -23,6 +31,7 @@ const RegisterModal = () => {
     const registerModal = useRegisterModal()
     const [isLoading, setIsLoading] = useState(false)
 
+    // this function is for the form control the useForm that acceots the field values 
     const {
         register,
         handleSubmit,
@@ -30,6 +39,7 @@ const RegisterModal = () => {
             errors,
         }
     } = useForm<FieldValues>({
+        // object of defualt field values
         defaultValues: {
             name: '',
             email: '',
@@ -38,14 +48,17 @@ const RegisterModal = () => {
     })
 
     // pass data to axios as a field value which is the name email and password 
+    // onSubmit is a type of SubmitHandler which takes in FieldValues in the same way the useForm takes them 
+    // accepts data. the set is loading is set to true so that the animation loads up 
     const onSubmit: SubmitHandler<FieldValues> = (data => {
         setIsLoading(true)
 
-        // axios post call 
+        // axios post call to the register end point and sends data which is safely passed as field values
         axios.post('/api/register', data)
         .then(() => {
-            registerModal.onClose() //for the the data is successfully registered
+            registerModal.onClose() //close the register modal when the the data is successfully registered
         })
+        // only console logs error at the moment
         .catch ((error) => {
             console.log(error)
         })
@@ -62,15 +75,16 @@ const RegisterModal = () => {
             />
         </div>
     )
+
   return (
     <Modal 
         disabled={isLoading} //user cannot submit anything while the modal is loading 
-        isOpen={registerModal.isOpen} //comes from the hook useRegisterModal which is defined with options useRegisterModal file
+        isOpen={registerModal.isOpen} //comes from the hook useRegisterModal which is defined with option isOpen useRegisterModal file
         title='Register'
         actionLabel='Continue'
-        onClose={registerModal.onClose}
-        onSubmit={handleSubmit(onSubmit)}
-        body={bodyContent}
+        onClose={registerModal.onClose} //also comes from the useRegisterModal file as a hook that closes the window 
+        onSubmit={handleSubmit(onSubmit)}//onSubmit is wrapped in the handleSubmit function which takes care of data hanling and posting 
+        body={bodyContent} //this prop is for rending the content to the window. 
     />
   )
 }

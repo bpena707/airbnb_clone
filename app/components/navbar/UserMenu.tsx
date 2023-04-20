@@ -51,7 +51,7 @@ function UserMenu() {
                             label="Login"
                         />
                         <MenuItem 
-                            onClick={registerModal.onOpen} //this will make the registration modal pop up
+                            onClick={registerModal.onOpen} //prop that is passed that will make the registration modal pop up
                             label="Sign Up"
                         />
                     </>
