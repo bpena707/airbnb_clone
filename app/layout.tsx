@@ -20,6 +20,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
+    // returns all of the components 
     <html lang="en">
       <body className={font.className}>
         <RegisterModal />

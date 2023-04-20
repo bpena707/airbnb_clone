@@ -3,11 +3,10 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-
-//component
 function Logo() {
-    const router = useRouter()
+    const router = useRouter() //this will be used to route back to the homepage after 
   return (
+    //the image is sourced from the local file of public images
     <Image 
         src={"/images/logo.png"} 
         alt={"Logo"} 

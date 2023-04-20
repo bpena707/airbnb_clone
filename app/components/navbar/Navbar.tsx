@@ -5,6 +5,8 @@ import Logo from './Logo'
 import Search from './Search'
 import UserMenu from './UserMenu'
 
+//this is the main navbar component. all navbar compponents are passed through here including the logo, search and userMenu 
+// they are also all wrapped in the container
 function Navbar() {
   return (
     <div className='fixed w-full bg-white z-10 shadow-sm'>

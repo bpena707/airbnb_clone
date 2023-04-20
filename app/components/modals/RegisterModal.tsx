@@ -1,9 +1,11 @@
 'use client' 
 
+// axios is a data fetching library 
 import axios from 'axios'
 import { AiFillGithub } from 'react-icons/ai'
 import { FcGoogle } from "react-icons/fc";
 
+// these are all of the imports that are going to be used from hook form 
 import {
     FieldValues,
     SubmitHandler,
@@ -11,10 +13,13 @@ import {
 } from 'react-hook-form'
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
+
 import { useState } from 'react';
 import Modal from './Modal';
+import Heading from '../Heading';
 
 const RegisterModal = () => {
+    // variable for the useRegisterModal file that will be used in this component 
     const registerModal = useRegisterModal()
     const [isLoading, setIsLoading] = useState(false)
 
@@ -51,7 +56,10 @@ const RegisterModal = () => {
 
     const bodyContent = (
         <div className='flex flex-col gap-4'>
-            Modal Body
+            <Heading 
+                title='Welcome to Airbnb' 
+                subtitle='create an account!'
+            />
         </div>
     )
   return (

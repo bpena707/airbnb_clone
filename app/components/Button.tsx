@@ -1,16 +1,19 @@
 'use client'
+// all buttons will use this interface which includes styling for different size buttons
+// and props for onClick events disabled and icons
 
 import { IconType } from "react-icons"
 
 interface ButtonProps {
     label: string
+    // mouse event triggered by click 
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
     disabled?: boolean
     outline?: boolean
     small?: boolean
     icon?: IconType
 }
-
+// values are extracted
 const Button: React.FC<ButtonProps> = ({
     label,
     onClick,
@@ -19,6 +22,7 @@ const Button: React.FC<ButtonProps> = ({
     small,
     icon: Icon
 }) => {
+
   return (
     <button 
         onClick={onClick}
