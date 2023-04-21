@@ -25,6 +25,7 @@ import useRegisterModal from '@/app/hooks/useRegisterModal';
 import { useState } from 'react';
 import Modal from './Modal';
 import Heading from '../Heading';
+import Input from "../inputs/Input";
 
 const RegisterModal = () => {
     // variable for the useRegisterModal file that will be used in this component 
@@ -67,12 +68,15 @@ const RegisterModal = () => {
         }) //turn off loading when done by changing the state to false 
     })
 
+    //this is a body content that can be passed to modal based on the useRegisterModal hook which is an optional prop
+    // passes the heading component
     const bodyContent = (
         <div className='flex flex-col gap-4'>
             <Heading 
                 title='Welcome to Airbnb' 
                 subtitle='create an account!'
             />
+            <Input />
         </div>
     )
 
