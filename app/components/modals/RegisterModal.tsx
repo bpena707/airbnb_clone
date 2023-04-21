@@ -22,10 +22,12 @@ import {
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import Modal from './Modal';
 import Heading from '../Heading';
 import Input from "../inputs/Input";
+import { toast } from 'react-hot-toast';
+import Button from '../Button';
 
 const RegisterModal = () => {
     // variable for the useRegisterModal file that will be used in this component 
@@ -59,9 +61,9 @@ const RegisterModal = () => {
         .then(() => {
             registerModal.onClose() //close the register modal when the the data is successfully registered
         })
-        // only console logs error at the moment
+        // hot toast error appears 
         .catch ((error) => {
-            console.log(error)
+            toast.error("Something went wrong") 
         })
         .finally(() => {
             setIsLoading(false)
@@ -76,7 +78,31 @@ const RegisterModal = () => {
                 title='Welcome to Airbnb' 
                 subtitle='create an account!'
             />
-            <Input />
+            {/* these are the different input fields for email, name and password boxes that pop up on the register modal which the user can sign up on  */}
+            <Input id='email' label='Email' disabled={isLoading} register={register} errors={errors} required />
+            <Input id='name' label='Name' disabled={isLoading} register={register} errors={errors} required />
+            <Input id='password' label='Password' type='password' disabled={isLoading} register={register} errors={errors} required />
+        </div>
+    )
+
+    // the footer content goes under the continue button in the register modal and has all teh buttons for logging in with 
+    // google or github
+    const footerContent = (
+        // this dice is the outer part that places the gap from the body and makes everything inside flex
+        <div className='flex flex-col gap-4 mt-3 '>
+            <hr />
+            <Button outline label='Continue with Google' onClick={() => {}} icon={FcGoogle} />
+            <Button outline label='Continue with Github' onClick={() => {}} icon={AiFillGithub} />
+            <div className='text-neutral-500 text-center mt-4 font-light'>
+                <div className='justify-center flex flex-row items-center gap-2'>
+                    <div>
+                        Already have an account?
+                    </div>
+                    <div onClick={registerModal.onClose} className='text-neutral-800 cursor-pointer hover:underline '>
+                        Log in
+                    </div>
+                </div>
+            </div>
         </div>
     )
 
@@ -89,6 +115,7 @@ const RegisterModal = () => {
         onClose={registerModal.onClose} //also comes from the useRegisterModal file as a hook that closes the window 
         onSubmit={handleSubmit(onSubmit)}//onSubmit is wrapped in the handleSubmit function which takes care of data hanling and posting 
         body={bodyContent} //this prop is for rending the content to the window. 
+        footer={footerContent} //prop renders footer to the window
     />
   )
 }

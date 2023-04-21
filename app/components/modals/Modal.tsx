@@ -123,7 +123,8 @@ const Modal: React.FC<ModalProps> = ({
                                     onClick={handleSubmit}
                                 />
                             </div>
-                            {}
+                            {/* this will render the footer to the bottom of the modal  */}
+                            {footer} 
                         </div>
                     </div>
                 </div>
