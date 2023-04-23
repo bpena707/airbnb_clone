@@ -6,6 +6,53 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+// this scehma is all of our basic data
+
+// user model with an id of type string mapping the id to the objectId due 
+// to mongodb use which will be used for every model the database 
+// some of attributes are optional becuase when using google or github auth they will not be required
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId //every model inside of prisma must contain an id 
+  name String?
+  email String? @unique 
+  emailVerified DateTime?
+  image String?
+  hashedPassword String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  favoriteIds String[] @db.ObjectId //push an array of ids when listing is favorited 
+
+  //relations to other models 
+  accounts Account[]  //user can have many accounts
+  listing Listing[]
+  reservations Reservations[]
+
+}
+
+model Account {
+  id String @id @default(auto()) @map("id") @db.ObjectId
+  userId String @dbObjectId 
+  type String 
+  provider String 
+  providerAccountId String
+  refresh_token String? @db.String
+  access_token String? @db.String
+  expires_at Int?
+  token_type String?
+  scope String?
+  id_token String? @db.String
+  session_state String?
+
+  // relation between the user and the account using the fields userid by referencing the id in the user model 
+  // on delete in cascade to delete all account information when user deletes account  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // unique combination of fields 
+  @@unique([provider, providerAccountId])
+
+
 }

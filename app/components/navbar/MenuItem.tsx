@@ -1,4 +1,7 @@
 'use client'
+/* 
+the menu item component helps to pass the props to the userMenu component including the label and the onClick fuction 
+*/
 
 interface MenuItemProps {
     onClick: () => void
