@@ -5,9 +5,11 @@ import Avatar from "../Avatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 function UserMenu() {
     const registerModal = useRegisterModal()
+    const loginModal = useLoginModal()
     // the menu item is toggeled as false so it wont show untill clicked on
     const [isOpen, setIsOpen] = useState(false)
     
@@ -47,7 +49,7 @@ function UserMenu() {
                 <div className="flex flex-col cursor-pointer">
                     <>
                         <MenuItem 
-                            onClick={() => {}}
+                            onClick={loginModal.onOpen}
                             label="Login"
                         />
                         <MenuItem 
