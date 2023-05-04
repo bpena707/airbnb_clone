@@ -9,6 +9,7 @@ the body content is added to the body of the modal as a prop
 */
 
 // axios is a data fetching library 
+import { signIn } from "next-auth/react";
 import axios from 'axios'
 import { AiFillGithub } from 'react-icons/ai'
 import { FcGoogle } from "react-icons/fc";
@@ -29,11 +30,13 @@ import Input from "../inputs/Input";
 import { toast } from 'react-hot-toast';
 import Button from '../Button';
 import useLoginModal from '@/app/hooks/useLoginModal';
+import { useRouter } from "next/navigation";
 
 const LoginModal = () => {
     // variable for the useRegisterModal file that will be used in this component and the login modal that is added 
     const registerModal = useRegisterModal()
     const loginModal = useLoginModal()
+    const router = useRouter()
     const [isLoading, setIsLoading] = useState(false)
 
     // this function is for the form control the useForm that acceots the field values 
@@ -46,7 +49,6 @@ const LoginModal = () => {
     } = useForm<FieldValues>({
         // object of defualt field values
         defaultValues: {
-            name: '',
             email: '',
             password: ''
         }
@@ -55,34 +57,38 @@ const LoginModal = () => {
     // pass data to axios as a field value which is the name email and password 
     // onSubmit is a type of SubmitHandler which takes in FieldValues in the same way the useForm takes them 
     // accepts data. the set is loading is set to true so that the animation loads up 
-    const onSubmit: SubmitHandler<FieldValues> = (data => {
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true)
 
-        // axios post call to the register end point and sends data which is safely passed as field values
-        axios.post('/api/register', data)
-        .then(() => {
-            registerModal.onClose() //close the register modal when the the data is successfully registered
+        signIn('credentials', {
+            ... data,
+            redirect: false
         })
-        // hot toast error appears 
-        .catch ((error) => {
-            toast.error("Something went wrong") 
-        })
-        .finally(() => {
+        .then((callback) => {
             setIsLoading(false)
-        }) //turn off loading when done by changing the state to false 
-    })
+
+            if (callback?.ok) {
+                toast.success('Logged in')
+                router.refresh()
+                loginModal.onClose()
+            }
+
+            if (callback?.error) {
+                toast.error(callback.error)
+            }
+        })
+    }
 
     //this is a body content that can be passed to modal based on the useRegisterModal hook which is an optional prop
     // passes the heading component
     const bodyContent = (
         <div className='flex flex-col gap-4'>
             <Heading 
-                title='Welcome to Airbnb' 
-                subtitle='create an account!'
+                title='Welcome back' 
+                subtitle='Login to your account!'
             />
             {/* these are the different input fields for email, name and password boxes that pop up on the register modal which the user can sign up on  */}
             <Input id='email' label='Email' disabled={isLoading} register={register} errors={errors} required />
-            <Input id='name' label='Name' disabled={isLoading} register={register} errors={errors} required />
             <Input id='password' label='Password' type='password' disabled={isLoading} register={register} errors={errors} required />
         </div>
     )
@@ -112,7 +118,7 @@ const LoginModal = () => {
     <Modal 
         disabled={isLoading} //user cannot submit anything while the modal is loading 
         isOpen={loginModal.isOpen} //comes from the hook useRegisterModal which is defined with option isOpen useRegisterModal file
-        title='Register'
+        title='Login'
         actionLabel='Continue'
         onClose={loginModal.onClose} //also comes from the useRegisterModal file as a hook that closes the window 
         onSubmit={handleSubmit(onSubmit)}//onSubmit is wrapped in the handleSubmit function which takes care of data hanling and posting 
