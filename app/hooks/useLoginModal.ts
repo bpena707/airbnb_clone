@@ -1,4 +1,8 @@
 // this is for the zustand api 
+/* 
+this hook will control whether the application is open or closed via the onOpen and onClose functions
+the default is set to false so that the modal is closed until the user clicks on the login modal 
+*/
 
 import { create } from "zustand";
 

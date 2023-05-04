@@ -1,14 +1,10 @@
 'use client' 
 
 /*
-The RegisterModal is a modal that is responsible for handling the Registration of a new user.
-The main styling is handled by the modal component which is imported and rendered in the return.
-The useRegisterModal custom hook that was created in a separate file is also used here to handle data values that are passed
-as field values in to the submission handler which takes the data and creates a post via axios along with all of the edge cases
-the body content is added to the body of the modal as a prop
+The login modal 
 */
 
-// axios is a data fetching library 
+// using the sign in fucntion from next auth to validate the user is signing into the account 
 import { signIn } from "next-auth/react";
 import axios from 'axios'
 import { AiFillGithub } from 'react-icons/ai'
@@ -43,7 +39,7 @@ const LoginModal = () => {
     const {
         register,
         handleSubmit,
-        formState:{
+        formState: {
             errors,
         }
     } = useForm<FieldValues>({
@@ -54,9 +50,10 @@ const LoginModal = () => {
         }
     })
 
-    // pass data to axios as a field value which is the name email and password 
-    // onSubmit is a type of SubmitHandler which takes in FieldValues in the same way the useForm takes them 
-    // accepts data. the set is loading is set to true so that the animation loads up 
+    /* 
+        signing in using credential based on the data that is passed into the onSubmit. the credentials 
+        come from the [...nextauth].ts file where it requires the name and password
+    */
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true)
 
@@ -67,9 +64,11 @@ const LoginModal = () => {
         .then((callback) => {
             setIsLoading(false)
 
+            //if the callback worked and we successfully logged in we call toast success
+            //router updates all active values and then closes the modal  
             if (callback?.ok) {
                 toast.success('Logged in')
-                router.refresh()
+                router.refresh() 
                 loginModal.onClose()
             }
 
@@ -79,7 +78,7 @@ const LoginModal = () => {
         })
     }
 
-    //this is a body content that can be passed to modal based on the useRegisterModal hook which is an optional prop
+    //this is a body content that can be passed to modal based on the useLoginModal hook which is an optional prop
     // passes the heading component
     const bodyContent = (
         <div className='flex flex-col gap-4'>
