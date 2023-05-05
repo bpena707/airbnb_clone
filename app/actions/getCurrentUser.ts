@@ -29,7 +29,13 @@ export default async function getCurrentUser() {
             return null
         }
         // returns the curretn user once it is found in order to validate the session
-        return currentUser
+        //using the updatedAt to isostring to pass the objects 
+        return {
+            ...currentUser,
+            createdAt: currentUser.createdAt.toISOString(),
+            updatedAt: currentUser.createdAt.toISOString(),
+            emailVerified:currentUser.emailVerified?.toISOString() || null
+        }
     } catch (error: any) {
         return null
     }

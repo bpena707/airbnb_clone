@@ -1,16 +1,16 @@
 'use client'
 
-import { User } from '@prisma/client'
 import Container from '../Container'
 import Logo from './Logo'
 import Search from './Search'
 import UserMenu from './UserMenu'
+import { SafeUser } from '@/app/types'
 
 /* have the current user logged in without using an api call */
 
 //this is passed into layout to allow the use of the current user which is defined within prisma as well
 interface NavbarProps {
-  currentUser?: User | null
+  currentUser?: SafeUser | null
 }
 
 
