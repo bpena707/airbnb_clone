@@ -26,6 +26,15 @@ const UserMenu:React.FC<UserMenuProps> = ({
     const toggleOpen = useCallback (() => {
         setIsOpen((prevState) => !prevState)
       },[])
+
+      const onRent = useCallback(() => {
+        //if there is no current user we want to return the loginModal to be open
+        if (!currentUser) {
+            loginModal.onOpen()
+        }
+
+        //open rent modal
+      },[])
     
   return (
     // this div is for the overall button which is just relative 
@@ -34,7 +43,7 @@ const UserMenu:React.FC<UserMenuProps> = ({
         <div className="flex flex-row items-center gap-3">
             {/* this button will open the rent modal */}
             <div 
-                onClick={() => {}}
+                onClick={onRent}//clicing on airbnb your home triggers the onRent function
                 className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
                 Airbnb you home 
             </div>
