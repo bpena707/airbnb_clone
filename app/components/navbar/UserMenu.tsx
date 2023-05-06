@@ -8,6 +8,7 @@ import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
+import useRentModal from "@/app/hooks/useRentModal";
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -18,12 +19,13 @@ const UserMenu:React.FC<UserMenuProps> = ({
 }) => {
     const registerModal = useRegisterModal()
     const loginModal = useLoginModal()
+    const rentModal = useRentModal()
     // the menu item is toggeled as false so it wont show untill clicked on
     const [isOpen, setIsOpen] = useState(false)
     
     // toggles the isOpen state by setting it to the not value, reverses the current value
     // used in airbnb your home 
-    const toggleOpen = useCallback (() => {
+    const toggleOpen = useCallback(() => {
         setIsOpen((prevState) => !prevState)
       },[])
 
@@ -34,7 +36,8 @@ const UserMenu:React.FC<UserMenuProps> = ({
         }
 
         //open rent modal
-      },[])
+        rentModal.onOpen()
+      },[rentModal, loginModal, currentUser])
     
   return (
     // this div is for the overall button which is just relative 
