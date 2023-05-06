@@ -22,17 +22,19 @@ import {
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useCallback, useState } from 'react';
 import Modal from './Modal';
 import Heading from '../Heading';
 import Input from "../inputs/Input";
 import { toast } from 'react-hot-toast';
 import Button from '../Button';
 import { signIn } from 'next-auth/react';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 const RegisterModal = () => {
     // variable for the useRegisterModal file that will be used in this component 
     const registerModal = useRegisterModal()
+    const loginModal = useLoginModal()
     const [isLoading, setIsLoading] = useState(false)
 
     // this function is for the form control the useForm that acceots the field values 
@@ -71,6 +73,11 @@ const RegisterModal = () => {
         }) //turn off loading when done by changing the state to false 
     })
 
+    const toggle = useCallback(() => {
+        registerModal.onClose()
+        loginModal.onOpen()
+    },[loginModal, registerModal])
+
     //this is a body content that can be passed to modal based on the useRegisterModal hook which is an optional prop
     // passes the heading component
     const bodyContent = (
@@ -99,7 +106,7 @@ const RegisterModal = () => {
                     <div>
                         Already have an account?
                     </div>
-                    <div onClick={registerModal.onClose} className='text-neutral-800 cursor-pointer hover:underline '>
+                    <div onClick={toggle} className='text-neutral-800 cursor-pointer hover:underline '>
                         Log in
                     </div>
                 </div>

@@ -19,7 +19,7 @@ import {
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useCallback, useState } from 'react';
 import Modal from './Modal';
 import Heading from '../Heading';
 import Input from "../inputs/Input";
@@ -78,6 +78,11 @@ const LoginModal = () => {
         })
     }
 
+    const toggle = useCallback(() => {
+        loginModal.onClose()
+        registerModal.onOpen()
+    },[loginModal, registerModal])
+
     //this is a body content that can be passed to modal based on the useLoginModal hook which is an optional prop
     // passes the heading component
     const bodyContent = (
@@ -103,10 +108,10 @@ const LoginModal = () => {
             <div className='text-neutral-500 text-center mt-4 font-light'>
                 <div className='justify-center flex flex-row items-center gap-2'>
                     <div>
-                        Already have an account?
+                        First time using Airbnb?
                     </div>
-                    <div onClick={registerModal.onClose} className='text-neutral-800 cursor-pointer hover:underline '>
-                        Log in
+                    <div onClick={toggle} className='text-neutral-800 cursor-pointer hover:underline '>
+                        Create an account
                     </div>
                 </div>
             </div>

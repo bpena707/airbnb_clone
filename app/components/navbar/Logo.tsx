@@ -8,6 +8,7 @@ function Logo() {
   return (
     //the image is sourced from the local file of public images
     <Image 
+      onClick={() => router.push('/')}//redirects back to the mainpage
         src={"/images/logo.png"} 
         alt={"Logo"} 
         className="hidden md:block cursor-pointer"
