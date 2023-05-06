@@ -23,8 +23,9 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
     const router = useRouter()
     const params = useSearchParams()
 
-    //define the empty query 
+    //this is the handle click callback function 
     const handleClick = useCallback(() => {
+        //define the empty query 
         let currentQuery = {}
 
         //check to see if we have params at all 
