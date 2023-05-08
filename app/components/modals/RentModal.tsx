@@ -8,8 +8,10 @@ import Heading from '../Heading';
 import { categories } from '../navbar/Categories';
 import CategoryInput from '../inputs/CategoryInput';
 import { FieldValue, FieldValues, useForm } from 'react-hook-form';
+import { CountrySelect } from '../inputs/CountrySelect';
 
-//set of named constants 
+//set of named constants that compromise of the steps if the airbnb your home modal.
+//user will go through steps chronologically by clicking next 
 enum STEPS {
     CATEGORY = 0,
     LOCATION = 1,
@@ -64,12 +66,12 @@ const RentModal = () => {
     }
 
     // functions that go backward and forward
-    function onBack()  {
-        setStep((prevState) => prevState + 1 )
+    const onBack = () =>  {
+        setStep((prevState) => prevState - 1 )
     }
 
-    function onNext() {
-        setStep((prevState) => prevState - 1)
+    const onNext = () => {
+        setStep((prevState) => prevState + 1)
     } 
 
     //if the action label tries to go beyond the price step it triggers the create and then next
@@ -113,12 +115,27 @@ const RentModal = () => {
         </div>
     )
 
+    if (step === STEPS.LOCATION) {
+        bodyContent = (
+            <div>
+                <Heading 
+                    title='Where is your place located'
+                    subtitle='Help guests find you!'
+                />
+                <CountrySelect />
+
+            </div>
+        )
+    }
+
+ 
+
   return (
     <div>
         <Modal 
             onClose={rentModal.onClose}
             isOpen={rentModal.isOpen}
-            onSubmit={rentModal.onClose}
+            onSubmit={onNext}
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}
             secondaryAction={step === STEPS.CATEGORY ? undefined : onBack} //chekc if we are on the first step and undefined if doesnt exist
