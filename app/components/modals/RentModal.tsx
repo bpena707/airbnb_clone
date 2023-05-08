@@ -7,6 +7,7 @@ import useRentModal from "@/app/hooks/useRentModal";
 import Heading from '../Heading';
 import { categories } from '../navbar/Categories';
 import CategoryInput from '../inputs/CategoryInput';
+import { FieldValue, FieldValues, useForm } from 'react-hook-form';
 
 //set of named constants 
 enum STEPS {
@@ -23,8 +24,32 @@ enum STEPS {
 
 const RentModal = () => {
     const rentModal = useRentModal()
-
     const [step, setStep] = useState(STEPS.CATEGORY)
+    //used to connect to the form
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        formState: {
+            errors,
+        },
+        reset
+        // this form is used to build upon the listing schema in prisma default values are named the same as values in schema
+    } = useForm<FieldValues>({
+        defaultValues: {
+            category: '',
+            location:'',
+            guestCount: 1,
+            roomCount: 1,
+            bathroomCount: 1,
+            imageSrc: '',
+            price: 1,
+            title: '',
+            description: ''
+        }
+    })
+
 
     // functions that go backward and forward
     function onBack()  {
