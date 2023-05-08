@@ -50,6 +50,18 @@ const RentModal = () => {
         }
     })
 
+    // since category input is implemented use the watch function to watch the category value
+    const category = watch('category')
+
+    // custom set value to rerender the page derived from the setValue field value
+    const setCustomValue = (id: string, value: any) => {
+        setValue(id, value, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true
+
+        })
+    }
 
     // functions that go backward and forward
     function onBack()  {
@@ -90,8 +102,8 @@ const RentModal = () => {
                 {categories.map((item) => (
                     <div key={item.label} className='col-span-1'>
                         <CategoryInput
-                            onClick={() => {}}
-                            selected={false}
+                            onClick={(category) => setCustomValue('category', category)} //this will keep the box highlighted when clicked on using the accepted id of category
+                            selected={category === item.label} //category comes from the watch category. 
                             label={item.label}
                             icon={item.icon}
                         />
