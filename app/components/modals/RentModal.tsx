@@ -8,7 +8,7 @@ import Heading from '../Heading';
 import { categories } from '../navbar/Categories';
 import CategoryInput from '../inputs/CategoryInput';
 import { FieldValue, FieldValues, useForm } from 'react-hook-form';
-import { CountrySelect } from '../inputs/CountrySelect';
+import CountrySelect from '../inputs/CountrySelect';
 
 //set of named constants that compromise of the steps if the airbnb your home modal.
 //user will go through steps chronologically by clicking next 
@@ -122,7 +122,7 @@ const RentModal = () => {
                     title='Where is your place located'
                     subtitle='Help guests find you!'
                 />
-                <CountrySelect />
+                <CountrySelect onChange={() => {}} />
 
             </div>
         )
