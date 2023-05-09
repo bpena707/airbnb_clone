@@ -9,7 +9,7 @@ import { categories } from '../navbar/Categories';
 import CategoryInput from '../inputs/CategoryInput';
 import { FieldValue, FieldValues, useForm } from 'react-hook-form';
 import CountrySelect from '../inputs/CountrySelect';
-
+import Map from "../Map";
 //set of named constants that compromise of the steps if the airbnb your home modal.
 //user will go through steps chronologically by clicking next 
 enum STEPS {
@@ -54,6 +54,7 @@ const RentModal = () => {
 
     // since category input is implemented use the watch function to watch the category value
     const category = watch('category')
+    const location = watch('location') //constant is assigned to CountrySelect component below 
 
     // custom set value to rerender the page derived from the setValue field value
     const setCustomValue = (id: string, value: any) => {
@@ -122,7 +123,11 @@ const RentModal = () => {
                     title='Where is your place located'
                     subtitle='Help guests find you!'
                 />
-                <CountrySelect onChange={() => {}} />
+                <CountrySelect 
+                    value={location}
+                    onChange={(value) => setCustomValue('location', value)} 
+                />
+                <Map />
 
             </div>
         )
