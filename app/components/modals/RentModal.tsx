@@ -9,7 +9,9 @@ import { categories } from '../navbar/Categories';
 import CategoryInput from '../inputs/CategoryInput';
 import { FieldValue, FieldValues, useForm } from 'react-hook-form';
 import CountrySelect from '../inputs/CountrySelect';
-import Map from "../Map";
+import { latLng } from 'leaflet';
+import dynamic from 'next/dynamic';
+import Counter from '../inputs/Counter';
 //set of named constants that compromise of the steps if the airbnb your home modal.
 //user will go through steps chronologically by clicking next 
 enum STEPS {
@@ -41,7 +43,7 @@ const RentModal = () => {
     } = useForm<FieldValues>({
         defaultValues: {
             category: '',
-            location:'',
+            location: null,
             guestCount: 1,
             roomCount: 1,
             bathroomCount: 1,
@@ -54,7 +56,13 @@ const RentModal = () => {
 
     // since category input is implemented use the watch function to watch the category value
     const category = watch('category')
+
+    
     const location = watch('location') //constant is assigned to CountrySelect component below 
+    //map is dynamically imported in location since ssr doesnt fully support leaflet and is rerendered every time location is changed
+    const Map = useMemo(() => dynamic(() => import('../Map'), {
+        ssr: false
+    }), [location])
 
     // custom set value to rerender the page derived from the setValue field value
     const setCustomValue = (id: string, value: any) => {
@@ -118,16 +126,33 @@ const RentModal = () => {
 
     if (step === STEPS.LOCATION) {
         bodyContent = (
-            <div>
+            //this div is for the components within the body
+            <div className='flex flex-col gap-8'>
                 <Heading 
-                    title='Where is your place located'
+                    title='Where is your place located?'
                     subtitle='Help guests find you!'
                 />
                 <CountrySelect 
                     value={location}
                     onChange={(value) => setCustomValue('location', value)} 
                 />
-                <Map />
+                <Map 
+                    center={location?.latLng}
+                />
+
+            </div>
+        )
+    }
+
+    if (step === STEPS.INFO) {
+        bodyContent = (
+            <div className='flex flex-col gap-8'>
+                <Heading 
+                title='Share some basics about your place '
+                subtitle='What ammenities do you have? '
+                />
+                <Counter />
+
 
             </div>
         )

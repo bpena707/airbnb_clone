@@ -3,6 +3,7 @@ import useCountries from '@/app/hooks/UseCountries'
 import React from 'react'
 import Select from 'react-select'
 
+//export and define value this component will accept 
 export type CountrySelectValue = {
     flag: string
     label: string 
@@ -28,7 +29,8 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
         <Select 
             placeholder='Anywhere'
             isClearable
-            options={getAll()} //all options displayed using the getAll from use countries hook 
+            options={getAll()} //all options displayed using the getAll from use countries hook into the the select bar as a dropdown options menu 
+            value={value}
             onChange={(value) => onChange(value as CountrySelectValue)} //call the prop on change and calls the value as country select
             formatOptionLabel={(option: any) => (
                 <div className='flex flex-row items-center gap-3'>
@@ -36,7 +38,6 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
                     <div>
                         {option.label}, <span className='text-neutral-500 ml-1'>{option.region}</span>
                     </div>
-
                 </div>
             )}
             //these are the classnames that format thb select box to match the theme 
@@ -51,7 +52,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
                 colors: {
                     ...theme.colors,
                     primary: 'black', //this the color of the border
-                    primary25: '#ffe4e6' //this is the highlighted bar in select
+                    primary25: '#ffe4e6'  //this is the highlighted bar in select
                 }
             })}
         />
