@@ -33,6 +33,7 @@ const Counter: React.FC<CounterProps> = ({
         onChange(value - 1)
     }, [value, onChange])
   return (
+    // this section of divs styles the title and subtitle
     <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col">
             <div className="font-medium">

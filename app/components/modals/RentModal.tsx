@@ -60,6 +60,7 @@ const RentModal = () => {
     
     const location = watch('location') //constant is assigned to CountrySelect component below 
     //map is dynamically imported in location since ssr doesnt fully support leaflet and is rerendered every time location is changed
+    const guestCount = watch('guestCount')
     const Map = useMemo(() => dynamic(() => import('../Map'), {
         ssr: false
     }), [location])
@@ -151,7 +152,12 @@ const RentModal = () => {
                 title='Share some basics about your place '
                 subtitle='What ammenities do you have? '
                 />
-                <Counter />
+                <Counter 
+                    title='Guests'
+                    subtitle='How many guests do yo allow'
+                    value={guestCount}
+                    onChange={(value) => setCustomValue('guestCount', value)}
+                />
 
 
             </div>
