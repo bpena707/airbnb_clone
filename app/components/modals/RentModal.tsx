@@ -23,9 +23,6 @@ enum STEPS {
     PRICE = 5
 }
 
-// control for the steps
-
-
 const RentModal = () => {
     const rentModal = useRentModal()
     const [step, setStep] = useState(STEPS.CATEGORY)
@@ -55,12 +52,16 @@ const RentModal = () => {
     })
 
     // since category input is implemented use the watch function to watch the category value
+    /* 
+        each const watches for changes form the component fields and updates the FieldValues
+    */
     const category = watch('category')
-
-    
     const location = watch('location') //constant is assigned to CountrySelect component below 
-    //map is dynamically imported in location since ssr doesnt fully support leaflet and is rerendered every time location is changed
     const guestCount = watch('guestCount')
+    const roomCount = watch('roomCount')
+    const bathroomCount = watch('bathroomCount')
+
+    //map is dynamically imported in location since ssr doesnt fully support leaflet and is rerendered every time location is changed
     const Map = useMemo(() => dynamic(() => import('../Map'), {
         ssr: false
     }), [location])
@@ -158,8 +159,20 @@ const RentModal = () => {
                     value={guestCount}
                     onChange={(value) => setCustomValue('guestCount', value)}
                 />
-
-
+                <hr />
+                <Counter 
+                    title='Rooms'
+                    subtitle='How many rooms do you have'
+                    value={roomCount}
+                    onChange={(value) => setCustomValue('roomCount', value)}
+                />
+                <hr />
+                <Counter 
+                title='Bathrooms'
+                subtitle='How many bathrooms do you have'
+                value={bathroomCount}
+                onChange={(value) => setCustomValue('bathroomCount', value)}
+                />
             </div>
         )
     }
