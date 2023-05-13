@@ -12,6 +12,7 @@ import CountrySelect from '../inputs/CountrySelect';
 import { latLng } from 'leaflet';
 import dynamic from 'next/dynamic';
 import Counter from '../inputs/Counter';
+import ImageUploads from '../inputs/ImageUploads';
 //set of named constants that compromise of the steps if the airbnb your home modal.
 //user will go through steps chronologically by clicking next 
 enum STEPS {
@@ -60,6 +61,7 @@ const RentModal = () => {
     const guestCount = watch('guestCount')
     const roomCount = watch('roomCount')
     const bathroomCount = watch('bathroomCount')
+    const imageSrc = watch('imageSrc')
 
     //map is dynamically imported in location since ssr doesnt fully support leaflet and is rerendered every time location is changed
     const Map = useMemo(() => dynamic(() => import('../Map'), {
@@ -175,6 +177,24 @@ const RentModal = () => {
                 />
             </div>
         )
+    }
+
+    /* the image step has a heading and takes in image uploads from the user */
+    if (step === STEPS.IMAGES) {
+        bodyContent = (
+            <div>
+                <Heading 
+                    title='Add a photo of your place'
+                    subtitle='Show guests what your place looks like'
+                />
+                <ImageUploads 
+                    value={imageSrc}
+                    onChange={(value) => setCustomValue('imageSrc', value)}
+                />
+
+            </div>
+        )
+        
     }
 
  
