@@ -229,6 +229,27 @@ const RentModal = () => {
         )
     }
 
+    if (step === STEPS.PRICE) {
+        bodyContent=(
+            <div>
+                <Heading
+                    title='Now set your price'
+                    subtitle='How much do you charge per night?'
+                />
+                <Input
+                    id='price'
+                    label='Price'
+                    formatPrice
+                    type='number'
+                    register={register}
+                    errors={errors}
+                    disabled={isLoading}
+                    required
+                />
+            </div>
+        )
+    }
+
  
 
   return (
