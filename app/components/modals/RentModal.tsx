@@ -13,6 +13,8 @@ import { latLng } from 'leaflet';
 import dynamic from 'next/dynamic';
 import Counter from '../inputs/Counter';
 import ImageUploads from '../inputs/ImageUploads';
+import  Input  from '../inputs/Input';
+
 //set of named constants that compromise of the steps if the airbnb your home modal.
 //user will go through steps chronologically by clicking next 
 enum STEPS {
@@ -27,6 +29,8 @@ enum STEPS {
 const RentModal = () => {
     const rentModal = useRentModal()
     const [step, setStep] = useState(STEPS.CATEGORY)
+    const [isLoading, setIsLoading] = useState(false)
+
     //used to connect to the form
     const {
         register,
@@ -195,6 +199,25 @@ const RentModal = () => {
             </div>
         )
         
+    }
+
+    if (step === STEPS.DESCRIPTION) {
+        bodyContent = (
+            <div>
+                <Heading 
+                    title='How would you describe your place?'
+                    subtitle='Short and sweet works best!'
+                />
+                <Input
+                    id="title"
+                    label="Title"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+            </div>
+        )
     }
 
  
