@@ -7,13 +7,16 @@ import useRentModal from "@/app/hooks/useRentModal";
 import Heading from '../Heading';
 import { categories } from '../navbar/Categories';
 import CategoryInput from '../inputs/CategoryInput';
-import { FieldValue, FieldValues, useForm } from 'react-hook-form';
+import { FieldValue, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import CountrySelect from '../inputs/CountrySelect';
 import { latLng } from 'leaflet';
 import dynamic from 'next/dynamic';
 import Counter from '../inputs/Counter';
 import ImageUploads from '../inputs/ImageUploads';
 import  Input  from '../inputs/Input';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 //set of named constants that compromise of the steps if the airbnb your home modal.
 //user will go through steps chronologically by clicking next 
@@ -27,6 +30,7 @@ enum STEPS {
 }
 
 const RentModal = () => {
+    const router =useRouter()
     const rentModal = useRentModal()
     const [step, setStep] = useState(STEPS.CATEGORY)
     const [isLoading, setIsLoading] = useState(false)
@@ -90,6 +94,31 @@ const RentModal = () => {
     const onNext = () => {
         setStep((prevState) => prevState + 1)
     } 
+
+    //the same field values are used from the useForm to submit
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        // this is to check if the current step is not set to STEPS.PRICE before moving into the submission 
+        if(step != STEPS.PRICE) {
+            return onNext()
+        }
+        //set loading is triggered when we reach the last step and then post data using axios and toast to notcify user post is created
+        setIsLoading(true)
+
+        axios.post('/api/listings', data)
+        .then(() => {
+            toast.success('Listing Created!')
+            router.refresh()
+            reset() //after successfully submitting the form info, the entire form is reset. 
+            setStep(STEPS.CATEGORY)
+            rentModal.onClose() //closes the rent modal after reset submission
+        })
+        //catch errors in submission in case of any other issue
+        .catch(() => {
+            toast.error('Something went wrong!')
+        }).finally(() => {
+            setIsLoading(false)
+        })
+    }
 
     //if the action label tries to go beyond the price step it triggers the create and then next
     const actionLabel = useMemo(() => {
@@ -257,7 +286,7 @@ const RentModal = () => {
         <Modal 
             onClose={rentModal.onClose}
             isOpen={rentModal.isOpen}
-            onSubmit={onNext}
+            onSubmit={handleSubmit(onSubmit)}
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}
             secondaryAction={step === STEPS.CATEGORY ? undefined : onBack} //chekc if we are on the first step and undefined if doesnt exist
