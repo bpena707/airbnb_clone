@@ -2,8 +2,8 @@ import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 
-export async function Post(
-    req: Request
+export async function POST(
+    request: Request
 ) {
     const currentUser = await getCurrentUser()
 
@@ -11,7 +11,7 @@ export async function Post(
         return NextResponse.error()
     }
 
-    const body = await req.json()
+    const body = await request.json()
     //extract all from the json body
     const{
         title,

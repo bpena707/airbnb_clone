@@ -7,9 +7,8 @@ import useRentModal from "@/app/hooks/useRentModal";
 import Heading from '../Heading';
 import { categories } from '../navbar/Categories';
 import CategoryInput from '../inputs/CategoryInput';
-import { FieldValue, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import CountrySelect from '../inputs/CountrySelect';
-import { latLng } from 'leaflet';
 import dynamic from 'next/dynamic';
 import Counter from '../inputs/Counter';
 import ImageUploads from '../inputs/ImageUploads';
@@ -30,7 +29,7 @@ enum STEPS {
 }
 
 const RentModal = () => {
-    const router =useRouter()
+    const router = useRouter()
     const rentModal = useRentModal()
     const [step, setStep] = useState(STEPS.CATEGORY)
     const [isLoading, setIsLoading] = useState(false)
@@ -44,7 +43,7 @@ const RentModal = () => {
         formState: {
             errors,
         },
-        reset
+        reset,
         // this form is used to build upon the listing schema in prisma default values are named the same as values in schema
     } = useForm<FieldValues>({
         defaultValues: {
@@ -174,7 +173,7 @@ const RentModal = () => {
                     onChange={(value) => setCustomValue('location', value)} 
                 />
                 <Map 
-                    center={location?.latLng}
+                    center={location?.latlng}
                 />
 
             </div>
@@ -292,6 +291,7 @@ const RentModal = () => {
             secondaryAction={step === STEPS.CATEGORY ? undefined : onBack} //chekc if we are on the first step and undefined if doesnt exist
             title='Airbnb your home!'
             body={bodyContent}
+            disabled={isLoading}
         />
     </div>
   )
