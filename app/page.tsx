@@ -6,6 +6,7 @@ which is the data that is formatted as cards. the page changes depending on the 
 import getListings from "./actions/getListings";
 import Container from "./components/Container";
 import EmptyState from "./components/EmptyState";
+import ListingCard from "./components/listings/ListingCard";
 
 export default async function Home() {
   //const is for when there is no data to display for the chosen category on the main page
@@ -22,7 +23,10 @@ export default async function Home() {
       <div className="pt-24 grid grid-cols-1 sm: grid-cols-2 md:grid-cols-3 lg: grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
         {listings.map((listing: any) => {
           return (
-            <div>{listing.title}</div>
+            <ListingCard
+              key={listing.id}
+              data={listing}
+            />
           )
         })}
       </div>
