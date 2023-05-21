@@ -7,6 +7,9 @@ import { useRouter } from "next/navigation"
 import { useCallback, useMemo } from "react"
 import { format } from "date-fns"
 import Image from "next/image"
+import { AiFillHeart } from "react-icons/ai"
+import HeartButton from "../HeartButton"
+import Button from "../Button"
 
 interface ListingCardProps {
     data: Listing
@@ -86,8 +89,38 @@ const ListingCard: React.FC<ListingCardProps> = ({
                     src={data.imageSrc}
                     className="object-cover h-full w-full group-hover:scale-110 transition"
                 />
-
+                {/* this is the heart button that renders from the heart button component which is toggled by user onCLick event */}
+                <div className="absolute top-3 right-3">
+                    <HeartButton
+                        listingId={data.id}
+                        currentUser={currentUser}
+                    />
+                </div>
             </div>
+            {/* this area is for that text data that appears under the listing card  */}
+                <div className="font-semibold text-lg">
+                    {location?.region}, {location?.label}
+                </div>
+                <div className="font-light text-neutral-500">
+                        {reservationDate || data.category}
+                </div>
+                <div className="flex flex-row items-center gap-1">
+                    <div className="font-semibold">
+                        $ {price}
+                    </div>
+                    {!reservation && (
+                        <div className="font-light">night</div>
+                    )}
+                </div>
+                {onAction && actionLabel && (
+                    // this button will be used to cancel a reservation 
+                    <Button 
+                        disabled={disabled}
+                        small
+                        label={actionLabel}
+                        onClick={handleCancel}
+                    />
+                )}
         </div>
     </div>
   )
