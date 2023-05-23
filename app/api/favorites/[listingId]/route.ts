@@ -10,6 +10,7 @@ interface IParams {
     listingId?: string
 }
 
+// the POST is triggered when the user likes a post 
 // function has the request as a Request and destructured params that sets Iparams to params .
 export async function POST(
     request: Request,
@@ -52,7 +53,8 @@ export async function POST(
     return NextResponse.json(user)
 }
 
-async function DELETE(
+// delete is triggered when a user unlikes a post
+export async function DELETE(
     request: Request, //request is of type  resource Request API
     {params}:{params: IParams} //params of the type interface IParams which carries the listing id
     ) {

@@ -2,6 +2,7 @@
 'use client'
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
 import { SafeUser } from "../types"
+import useFavorite from "../hooks/useFavorite"
 
 interface HeartButtonProps {
     listingId: string
@@ -13,8 +14,13 @@ const HeartButton: React.FC<HeartButtonProps> = ({
     listingId,
     currentUser
 }) => {
-    const hasFavorited = true
-    const toggleFavorite = () => {}
+
+    // the useFavorite hook is passed with the destructured parameters 
+    const { hasFavorited, toggleFavorite } = useFavorite({
+        listingId,
+        currentUser
+    })
+    
   return (
     <div
         onClick={toggleFavorite}
