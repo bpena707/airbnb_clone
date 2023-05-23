@@ -9,7 +9,14 @@ export default async function getListing() {
                 createdAt: 'desc' //desc means descending order
             }
         })
-        return listings
+    // this fixes the console warnign 
+        const safeListings = listings.map((listing) => ({
+            ...listing,
+            createdAt: listing.createdAt.toISOString()
+        }))
+
+        return safeListings
+
     } catch (error: any) {
         throw new Error(error)
     }
