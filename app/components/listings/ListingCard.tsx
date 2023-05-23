@@ -1,3 +1,7 @@
+/* the listing card component is for the listing images that appear under the 
+navbar in the main page. it will list all of the data for the each data and display 
+it as a list on the main page. the data includes images, price, and location */
+
 'use client'
 
 import useCountries from "@/app/hooks/UseCountries"
@@ -11,6 +15,7 @@ import { AiFillHeart } from "react-icons/ai"
 import HeartButton from "../HeartButton"
 import Button from "../Button"
 
+// props for the listing card that includes all of data that will be displayed
 interface ListingCardProps {
     data: Listing
     reservation?: Reservation
