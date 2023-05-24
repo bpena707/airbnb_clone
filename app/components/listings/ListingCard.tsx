@@ -81,7 +81,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   return (
     // this div is for the back the card image sits on 
     <div 
-        onClick={() => router.push(`/listing/${data.id}`)} //this router will push to the single listing when user clicks on it
+        onClick={() => router.push(`/listings/${data.id}`)} //this router will push to the single listing page when user clicks on it
         className="col-span-1 cursor-pointer group "
     >
         {/* this div formats the order of the cards  */}
