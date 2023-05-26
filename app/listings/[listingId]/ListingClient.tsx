@@ -5,12 +5,14 @@ import Container from "@/app/components/Container"
 import { categories } from "@/app/components/navbar/Categories"
 import { SafeListing, SafeUser } from "@/app/types"
 import { Reservation } from "@prisma/client"
-import { useMemo } from "react"
+import { useCallback, useMemo, useState } from "react"
 import ListingHead from "../../components/listings/ListingHead"
 import ListingInfo from "@/app/components/listings/ListingInfo"
 import useLoginModal from "@/app/hooks/useLoginModal"
 import { useRouter } from "next/navigation"
-import { eachDayOfInterval } from "date-fns"
+import { eachDayOfInterval, setDate } from "date-fns"
+import axios from "axios"
+import toast from "react-hot-toast"
 
 // this constant sets the start and end date 
 const initialDateRange = {
@@ -54,6 +56,44 @@ const ListingClient: React.FC<ListingClientProps> = ({
     },[reservations])
 
     // TODO: states and functions to create reservations
+    const [isLoading, setIsLoading] = useState(false)
+    const [totalPrice, setTotalPrice] = useState(listing.price)
+    const [dateRange, setDateRange] = useState(initialDateRange)
+
+    // function to create reservation. start with checking if there is a currentUser. useCallabck is used to memoize the entire function
+    const onCreateReservation = useCallback(() =>{
+        // if the user is not logged in then open the loginModal 
+        if (!currentUser) {
+            return loginModal.onOpen()
+        }
+
+        // set the loadingState to true
+        setIsLoading(true)
+
+        // axios post request to the API  reservations end point with object request as the payload
+        axios.post('/api/reservations', {
+            totalPrice,
+            startDate: dateRange.startDate,
+            endDate: dateRange.endDate,
+            listingId: listing?.id
+        })
+        // promise callback to execute when post is successful using toast to notify success sets state and refresh router 
+        .then(() => {
+            toast.success('Listing reserved!')
+            setDateRange(initialDateRange)
+            // Redirect to trips
+            router.refresh
+        })
+        //promise callback if post fails notifys of error
+        .catch(() => {
+            toast.error('Something went wrong')
+        })
+        // executes whether there was an error or not and setsLoading state to false
+        .finally(() => {
+            setIsLoading(false)
+        })
+    },[])
+
 
     const category = useMemo(() => {
         return categories.find((item) => 
