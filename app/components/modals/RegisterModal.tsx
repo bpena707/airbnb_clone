@@ -62,7 +62,9 @@ const RegisterModal = () => {
         // axios post call to the register end point and sends data which is safely passed as field values
         axios.post('/api/register', data)
         .then(() => {
+            toast.success('Success')
             registerModal.onClose() //close the register modal when the the data is successfully registered
+            loginModal.onOpen()
         })
         // hot toast error appears 
         .catch ((error) => {
