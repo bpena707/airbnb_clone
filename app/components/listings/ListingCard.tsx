@@ -5,8 +5,7 @@ it as a list on the main page. the data includes images, price, and location */
 'use client'
 
 import useCountries from "@/app/hooks/UseCountries"
-import { SafeListing, SafeUser } from "@/app/types"
-import { Listing, Reservation } from "@prisma/client"
+import { SafeListing, SafeUser, safeReservation } from "@/app/types"
 import { useRouter } from "next/navigation"
 import { useCallback, useMemo } from "react"
 import { format } from "date-fns"
@@ -18,7 +17,7 @@ import Button from "../Button"
 // props for the listing card that includes all of data that will be displayed
 interface ListingCardProps {
     data: SafeListing
-    reservation?: Reservation
+    reservation?: safeReservation
     onAction?: (id: string) => void
     disabled?: boolean
     actionLabel?: string
