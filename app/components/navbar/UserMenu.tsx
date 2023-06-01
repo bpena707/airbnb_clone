@@ -77,7 +77,7 @@ const UserMenu:React.FC<UserMenuProps> = ({
                             label="My trips"
                         />
                         <MenuItem 
-                            onClick={() => {}} //prop that is passed that will make the registration modal pop up
+                            onClick={() => router.push("/favorites")} //prop that is passed that will make the registration modal pop up
                             label="My favorites"
                         />
                         <MenuItem 
