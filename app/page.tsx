@@ -4,14 +4,19 @@ which is the data that is formatted as cards. the page changes depending on the 
 */
 
 import getCurrentUser from "./actions/getCurrentUser";
-import getListings from "./actions/getListings";
+import getListings, { IListingsParams } from "./actions/getListings";
 import Container from "./components/Container";
 import EmptyState from "./components/EmptyState";
 import ListingCard from "./components/listings/ListingCard";
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: IListingsParams
+}
+
+const Home = async ({ searchParams } : HomeProps) => {
   //const is for when there is no data to display for the chosen category on the main page
-  const listings = await getListings()
+  // searchParams is passed as an object 
+  const listings = await getListings(searchParams)
   const currentUser= await getCurrentUser()
 
   //if the category chosen is empty we will return an empty state
@@ -36,3 +41,5 @@ export default async function Home() {
     </Container>
   )
 }
+
+export default Home

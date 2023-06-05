@@ -1,10 +1,15 @@
 'use client'
+import useSearchModal from "@/app/hooks/useSearchModal";
 import { BiSearch } from "react-icons/bi";
 
 function Search() {
+    const searchModal = useSearchModal()
+
   return (
     // this div is for the overall rounded button 
-    <div className='border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer'>
+    <div 
+        onClick={searchModal.onOpen}
+        className='border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer'>
         {/* this div is for the the items within the div  */}
         <div className="flex flex-row items-center justify-between">
             {/* the rest here is the divs that open up different modals  */}
